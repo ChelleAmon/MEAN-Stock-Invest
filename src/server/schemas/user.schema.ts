@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { User } from '../../shared/models/user.model'
+import type { User } from '../../shared/models/user.model'
 const { Schema, model } = mongoose;
 
 

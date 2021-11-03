@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import mongoose from "mongoose";
+import { UserModel } from "./schemas/user.schema.js";
 
 const app = express();
 const PORT = 3000;
@@ -19,6 +20,33 @@ app.get('/', function(req, res) {
   console.log('app')
   res.json({test: 'tes2'})
 });
+
+app.get('/api/users', function(req: any,res){
+  UserModel.find({ email: req.user.email}, '-password')
+  .then(data => res.json({data}))
+  .catch(err => {
+    res.status(501).json({errors: err})
+  })
+});
+
+app.post('/api/create-account', function(req, res){
+  const{firstName, lastName, email, password} = req.body;
+  
+  const user = new UserModel({
+    firstName,
+    lastName,
+    email,
+    password,
+  });
+
+  user.save()
+    .then(data => {
+      res.json({data});
+    })
+    .catch(err => {
+      res.status(501).json({errors:err})
+    })
+})
 
 
 
