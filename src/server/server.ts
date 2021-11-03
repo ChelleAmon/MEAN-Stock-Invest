@@ -68,9 +68,27 @@ app.post('/api/create-account', function(req, res){
   });
 });
 
+app.post('/api/user-login', function(req,res){
+  const {email, password} = req.body;
 
-
-
+  UserModel.findOne({email})
+  .then(user => {
+    bcrypt.compare(password, `${user?.password}`, function (err,result){
+      if(result){
+        console.log("password's matched!")
+        const accessToken = jwt.sign({user}, access_token)
+        res.cookie('jwt', accessToken, {
+          httpOnly: true,
+          maxAge: 60 * 60 * 1000,
+        });
+        res.json({message: "Successfully logged in!"})
+      } else {
+      res.sendStatus(403);
+      console.log('No email or password matched!')
+      };
+    });
+  });
+});
 
 
 app.listen(PORT, function() {
