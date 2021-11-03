@@ -4,15 +4,31 @@ import path from "path";
 import mongoose from "mongoose";
 import { UserModel } from "./schemas/user.schema.js";
 
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import { authHandler } from "./middleware/auth.middleware.js";
+
+dotenv.config();
+const access_token = process.env.ACCESS_TOKEN_SECRET as string;
+const saltRounds = 10;
 const app = express();
-const PORT = 3000;
+const __dirname = path.resolve();
+const PORT =  process.env.port || 3000;
+
 
 mongoose.connect('mongodb://localhost:27017/Invest-Stocks')
   .then(()=> console.log('DB connected successfully'))
   .catch((err) => console.log('Failed to connect to DB', err))
 
 
-app.use(cors());
+app.use(cors(
+  {
+    credentials: true,
+    origin: ['http://localhost:4200', 'http://localhost:3000', 'http://localhost:8080']
+  }
+));
 app.use(express.json());
 
 
@@ -21,7 +37,7 @@ app.get('/', function(req, res) {
   res.json({test: 'tes2'})
 });
 
-app.get('/api/users', function(req: any,res){
+app.get('/api/users', authHandler, function(req: any,res){
   UserModel.find({ email: req.user.email}, '-password')
   .then(data => res.json({data}))
   .catch(err => {
@@ -31,22 +47,27 @@ app.get('/api/users', function(req: any,res){
 
 app.post('/api/create-account', function(req, res){
   const{firstName, lastName, email, password} = req.body;
-  
-  const user = new UserModel({
-    firstName,
-    lastName,
-    email,
-    password,
-  });
 
-  user.save()
-    .then(data => {
-      res.json({data});
-    })
-    .catch(err => {
-      res.status(501).json({errors:err})
-    })
+  bcrypt.genSalt(saltRounds, function(err,salt){
+    bcrypt.hash(password,salt, function(err,hash){
+      const user = new UserModel({
+        firstName,
+        lastName,
+        email,
+        password: hash,
+      });
+    
+      user.save()
+        .then(data => {
+          res.json({data});
+        })
+        .catch(err => {
+          res.status(501).json({errors:err})
+        });
+    });
+  });
 });
+
 
 
 
