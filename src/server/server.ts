@@ -46,7 +46,9 @@ app.post('/api/create-account', function(req, res){
     .catch(err => {
       res.status(501).json({errors:err})
     })
-})
+});
+
+
 
 
 
