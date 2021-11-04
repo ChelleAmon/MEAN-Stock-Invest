@@ -10,6 +10,13 @@ import { AddAccountComponent } from './modules/components/add-account/add-accoun
 import { HomeComponent } from './pages/home/home.component';
 import { UserLoginComponent } from './pages/user-login/user-login.component';
 import { LoginAccountComponent } from './modules/components/login-account/login-account.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import * as fromUser from './store/reducers/user/user.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './store/effects/user/user.effects';
 
 @NgModule({
   declarations: [
@@ -18,7 +25,7 @@ import { LoginAccountComponent } from './modules/components/login-account/login-
     UserLoginComponent,
     HomeComponent,
     LoginAccountComponent,
-  
+
   ],
   imports: [
     BrowserModule,
@@ -27,6 +34,10 @@ import { LoginAccountComponent } from './modules/components/login-account/login-
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
+    EffectsModule.forRoot([UserEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]

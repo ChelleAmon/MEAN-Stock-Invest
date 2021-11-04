@@ -7,8 +7,8 @@ import { LoginAccountComponent } from '../components/login-account/login-account
 const routes: Routes = [
   {path:'create-account', component: AddAccountComponent},
   {path:'login-account', component: LoginAccountComponent},
-  {path: 'User-Account', component: UserLoginComponent},
-  {path: '', redirectTo: 'login-account',pathMatch: 'full'}
+  {path: '', component: UserLoginComponent},
+  // {path: '', redirectTo: 'login-account',pathMatch: 'full'}
 ];
 
 @NgModule({
