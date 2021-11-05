@@ -17,12 +17,20 @@ import { environment } from '../environments/environment';
 import * as fromUser from './store/reducers/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/effects/user/user.effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     AddAccountComponent,
-    UserLoginComponent,
+   UserLoginComponent,
     HomeComponent,
     LoginAccountComponent,
 
@@ -38,8 +46,14 @@ import { UserEffects } from './store/effects/user/user.effects';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
     EffectsModule.forRoot([UserEffects]),
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
   ],
-  providers: [],
+  providers: [  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

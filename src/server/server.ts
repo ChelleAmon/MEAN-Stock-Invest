@@ -11,11 +11,11 @@ import dotenv from 'dotenv';
 import { authHandler } from "./middleware/auth.middleware.js";
 
 dotenv.config();
-const access_token = process.env.ACCESS_TOKEN_SECRET as string;
+const access_token = process.env.ACCESS_TOKEN as string;
 const saltRounds = 10;
 const app = express();
 const __dirname = path.resolve();
-const PORT =  process.env.port || 3000;
+const PORT =  3000;
 
 
 mongoose.connect('mongodb://localhost:27017/Invest-Stocks')
@@ -32,12 +32,8 @@ app.use(cors(
 app.use(express.json());
 
 
-app.get('/', function(req, res) {
-  console.log('app')
-  res.json({test: 'tes2'})
-});
 
-app.get('/api/users', authHandler, function(req: any,res){
+app.get('/users', authHandler, function(req: any,res){
   UserModel.find({ email: req.user.email}, '-password')
   .then(data => res.json({data}))
   .catch(err => {
@@ -45,7 +41,7 @@ app.get('/api/users', authHandler, function(req: any,res){
   })
 });
 
-app.post('/api/create-account', function(req, res){
+app.post('/create-account', function(req, res){
   const{firstName, lastName, email, password} = req.body;
 
   bcrypt.genSalt(saltRounds, function(err,salt){
@@ -68,7 +64,7 @@ app.post('/api/create-account', function(req, res){
   });
 });
 
-app.post('/api/user-login', function(req,res){
+app.post('/user-login', function(req,res){
   const {email, password} = req.body;
 
   UserModel.findOne({email})
@@ -83,8 +79,8 @@ app.post('/api/user-login', function(req,res){
         });
         res.json({message: "Successfully logged in!"})
       } else {
-      res.sendStatus(403);
-      console.log('No email or password matched!')
+        res.sendStatus(403);
+        console.log('No email or password matched!')
       };
     });
   });

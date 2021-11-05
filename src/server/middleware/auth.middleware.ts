@@ -11,7 +11,7 @@ function authHandle(req: AuthRequest, res:Response, next: NextFunction){
     console.log('auth', cookie);
     jwt.verify(
         cookie,
-        process.env.ACCESS_TOKEN_SECRET as string,
+        process.env.ACCESS_TOKEN as string,
             (err: any, result: any) => {
                 if (err) {
                     return res.sendStatus(403);
