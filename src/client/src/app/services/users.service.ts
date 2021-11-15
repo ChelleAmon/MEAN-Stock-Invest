@@ -21,4 +21,8 @@ export class UsersService {
   loginUser(user: User){
     return this.api.post<{data: User}, User>('user-login', user).pipe(map(res => res.data))
   }
+
+  checkLogin(){
+    return this.api.get<User>('check-login')
+  }
 }

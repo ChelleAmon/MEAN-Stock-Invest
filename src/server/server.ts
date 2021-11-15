@@ -34,6 +34,8 @@ app.use(express.json());
 
 
 app.get('/users', authHandler, function(req: any,res){
+  console.log("Logged in User", req.user)
+  
   UserModel.find({ email: req.user.email}, '-password')
   .then(data => res.json({data}))
   .catch(err => {
