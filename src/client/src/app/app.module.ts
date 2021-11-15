@@ -27,6 +27,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
+import { SearchComponent } from './modules/components/search/search.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { MatIconModule } from '@angular/material/icon';
    UserLoginComponent,
     HomeComponent,
     LoginAccountComponent,
+    SearchComponent,
 
   ],
   imports: [
