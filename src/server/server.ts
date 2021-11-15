@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import mongoose from "mongoose";
+import axios from 'axios';
 import { UserModel } from "./schemas/user.schema.js";
 
 import bcrypt from 'bcrypt';
@@ -31,6 +32,15 @@ app.use(cors(
 ));
 app.use(express.json());
 
+app.get("/getTickers", async function(req,res, next){
+  try {
+    let response = await axios.get('https://api.wazirx.com/api/v2/tickers');
+    res.send(response.data)
+  }
+  catch (err){
+    next(err);
+  }
+})
 
 
 app.get('/users', authHandler, function(req: any,res){
