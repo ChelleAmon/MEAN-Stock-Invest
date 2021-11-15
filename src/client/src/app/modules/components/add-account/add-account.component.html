@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-s-6 offset-3">
+      <mat-card class="example-card register">
+        <mat-card-content>
+          <div class="text-center head mt-4">
+            <mat-card-title>Create your Account </mat-card-title>
+          </div>
+          <form [formGroup]="userForm">
+            <div class="row d-flex justify-content-center">
+            <p class=" col-s-6 d-flex justify-content-center align-items-center">
+              <mat-form-field  appearance="standard">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput formControlName='firstName' class='form-control' >
+                <mat-error *ngIf="userForm.controls.firstName.errors">
+                  <span *ngIf="userForm.controls.firstName.errors.required">Field cannot be empty</span>
+                  <span *ngIf="userForm.controls.firstName.errors && !userForm.controls.firstName.errors.required">
+                    First Name should be at least 2 characters</span>
+              </mat-error>
+
+              </mat-form-field>
+            </p>
+              <p class=" col-s-6 d-flex justify-content-center align-item-center">
+              <mat-form-field appearance="standard">
+                <mat-label>Last Name</mat-label>
+                <input type="text" formControlName='lastName' class='form-control' matInput>
+                <!-- <mat-error *ngIf="userForm.controls.lasttName.errors">
+                  <!-- <span *ngIf="userForm.controls.lastName.errors.required">Field cannot be empty</span> -->
+                  <span *ngIf="userForm.controls.lastName.errors && !userForm.controls.lastName.errors.required">
+                    First Name should be at least 2 characters</span>
+              <!-- </mat-error> -->
+              </mat-form-field>
+            </p>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <p class="d-flex justify-content-center align-items-center">
+              <mat-form-field appearance="standard">
+                <mat-label>Email Address</mat-label>
+                <input type="text" formControlName="email" class="form-control" matInput>
+                <mat-error *ngIf="userForm.controls.email.errors">
+                  <span *ngIf="userForm.controls.email.errors.required">Field cannot be empty</span>
+                  <span *ngIf="userForm.controls.email.errors && !userForm.controls.email.errors.required">
+                    {{userForm.controls.email.errors.emailError}}</span>
+              </mat-error>
+                <mat-hint>Example: jane@doe.com</mat-hint>
+              </mat-form-field>
+            </p>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <p class="d-flex justify-content-center align-items-center">
+              <mat-form-field appearance="standard">
+                <mat-label>Password</mat-label>
+                <input type="password" formControlName="password" class="form-control" matInput>
+                <mat-hint>Password should be at least 5 characters</mat-hint>
+                <mat-error *ngIf="userForm.controls.password.errors">
+
+                </mat-error>
+              </mat-form-field>
+            </p>
+          </div>
+          <button mat-raised-button class="login-btn btn btn-block mt-4 mb-3" (click)="createAccount()">Register</button>
+          <p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+</div>
