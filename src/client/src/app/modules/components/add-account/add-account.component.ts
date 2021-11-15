@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store';
+import { createUser } from 'src/app/store/actions/user/user.actions';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 @Component({
   selector: 'app-add-account',
@@ -8,20 +14,76 @@ import { Validators, FormBuilder } from '@angular/forms';
 })
 export class AddAccountComponent {
 
-  userForm = this.fb.group({
+  userForm: FormGroup;
+  successMessage: any;
+  errorMessage: any;
+
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<AppState>,
+    private router: Router,
+    private _snackBar: MatSnackBar
+  ) {
+
+  this.userForm = this.fb.group({
     company: null,
-    firstName: [null, Validators.required],
-    lastName: [null, Validators.required],
-    email: [null, Validators.required, Validators.email],
+    firstName: [null, Validators.required, Validators.minLength(4)],
+    lastName: [null, Validators.required, Validators.minLength(4)],
+    email: [null, Validators.required, this.validateEmail ],
     password: [null, Validators.compose([
-      Validators.required, Validators.minLength(5), Validators.maxLength(5)])
+      Validators.required, Validators.minLength(5), this.validatePwd])
     ],
   });
+  }
 
-  constructor(private fb: FormBuilder) {}
+  hide:boolean = true;
 
-  onSubmit(): void {
-    alert('Thanks!');
+  validateEmail(email: any){
+    let EA = /^\S+@\S+$/;
+      return EA.test(email.value)
+        ? null
+        : {
+          emailError: 'Email is invalid',
+        }
+  };
+
+  validatePwd(password: any){
+    let re = /[a-zA-Z]*[0-9]{1}/;
+    return re.test(password.value)
+      ? null
+      : {
+        pwdError: 'Password should have at least 1 number',
+      }
+  }
+
+  userObj: any;
+  userDetails: any;
+
+  createAccount(){
+    this.userObj = {
+      firstName: this.userForm.value.firstName,
+      lastName: this.userForm.value.lastName,
+      email: this.userForm.value.email,
+      password: this.userForm.value.password,
+    };
+
+     if(this.userForm.valid){
+      this.store.dispatch(createUser({data: this.userForm.value}))
+      this._snackBar.open('Registration successful! ', '❎', {
+        duration: 2000,
+      });
+      // sessionStorage.setItem('loggedIn', 'true')
+      // sessionStorage.setItem('firstname', this.userDetails.firstName);
+      // sessionStorage.setItem('lastname', this.userDetails.lastName);
+      // sessionStorage.setItem('email', this.userDetails.email);
+      // this.router.navigate([''])
+
+    }
+    // }else{
+    //   (error: any) => this.errorMessage = error.message
+    //   console.log(this.errorMessage)
+    // }
+
   }
 
 }
