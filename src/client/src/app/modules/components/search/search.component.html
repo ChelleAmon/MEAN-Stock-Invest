@@ -1,1 +1,46 @@
-<p>search works!</p>
+<div id="parent">
+  <div id="child">
+    <p class="display-4 text-center">
+      <span><mat-icon matPrefix>moving</mat-icon></span>
+      Crypto Vest-In
+    </p>
+    <p class="subheading text-center">
+      Search for a cryptocurrency to get a full report
+    </p>
+
+    <form [formGroup]="searchForm" class="form" id="search-form">
+      <div class="form-group">
+        <input
+        type="text"
+        id="name"
+        placeholder="🔍 Type a currency name to search"
+        aria-label="Number"
+        matInput
+        [formControl]="myControl"
+        formControlName="search"
+        (keyup.enter)="searchFor()"
+        [(ngModel)]="inputSearch"
+        name="inputSearch">
+      </div>
+
+      <div class="form-group">
+        <div class="chips">
+          <mat-label>Trending: &nbsp; &nbsp; &nbsp;</mat-label>
+          <mat-chip-list aria-label="selection" id="chips">
+            <mat-chip mat-button (click)="inputSearch = 'BTC'">BTC</mat-chip>
+            <mat-chip mat-button (click)="inputSearch = 'ETH'">ETH</mat-chip>
+            <mat-chip mat-button (click)="inputSearch = 'DOGE'">DOGE</mat-chip>
+          </mat-chip-list>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- <div class="container-fluid" *ngIf="!selected">
+  <div class="row">
+    <div class="col offset-5 down">
+      <span class="material-icons display-3"> keyboard_arrow_down </span>
+    </div>
+  </div>
+</div> -->
