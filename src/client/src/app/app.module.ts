@@ -27,7 +27,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTabsModule } from '@angular/material/tabs';
 import { SearchComponent } from './modules/components/search/search.component';
+import { NavigationComponent } from './modules/components/navigation/navigation.component';
+import { CurrencyComponent } from './modules/components/currency/currency.component';
+import { CurrencyDetailsComponent } from './modules/components/currency-details/currency-details.component';
 
 
 @NgModule({
@@ -38,6 +45,9 @@ import { SearchComponent } from './modules/components/search/search.component';
     HomeComponent,
     LoginAccountComponent,
     SearchComponent,
+    NavigationComponent,
+    CurrencyComponent,
+    CurrencyDetailsComponent,
 
   ],
   imports: [
@@ -62,7 +72,12 @@ import { SearchComponent } from './modules/components/search/search.component';
     MatAutocompleteModule,
     MatInputModule,
     MatIconModule,
+    MatChipsModule,
+    MatToolbarModule,
+    MatPaginatorModule,
+    MatTabsModule,
   ],
+
   providers: [  ],
   bootstrap: [AppComponent]
 })

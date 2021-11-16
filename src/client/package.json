@@ -27,6 +27,7 @@
     "@ngrx/store": "^12.5.1",
     "@ngrx/store-devtools": "^12.5.1",
     "bootstrap": "^4.5.0",
+    "crypto-icons": "^1.0.65",
     "material-icons": "^1.10.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",

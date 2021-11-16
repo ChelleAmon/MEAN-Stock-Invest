@@ -1,0 +1,33 @@
+.table{
+  font-family: "Synce";
+  overflow-y: auto;
+}
+
+.table-responsive{
+  width:100%;
+  max-height: 600px;
+  padding: auto;
+}
+
+.paginator{
+  display: flex;
+  padding: 1%;
+  justify-content:center;
+}
+
+.labels{
+  color:#FBFCFF ;
+}
+
+.increase{
+  color: greenyellow;
+}
+
+.example-stretched-tabs {
+  width: 70%;
+  background-color:ghostwhite;
+}
+
+tr {
+  color: ghostwhite;
+}
