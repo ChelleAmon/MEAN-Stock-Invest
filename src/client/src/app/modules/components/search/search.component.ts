@@ -10,12 +10,12 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class SearchComponent implements OnInit {
 
-  searchForm: FormGroup;
+  searchForm: any;
 
   myControl  = new FormControl();
   options: string[] = ['BTC', 'ETH', 'DOGE', 'MANA', 'NPXS', 'DASH'];
   filteredOptions!: Observable<any>;
-  search?: string;
+  search: any;
   selected: boolean = false;
   name: any;
   data: any;
