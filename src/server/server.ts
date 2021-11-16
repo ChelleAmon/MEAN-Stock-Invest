@@ -42,7 +42,6 @@ app.get("/getTickers", async function(req,res, next){
   }
 })
 
-
 app.get('/users', authHandler, function(req: any,res){
   console.log("Logged in User", req.user)
   
