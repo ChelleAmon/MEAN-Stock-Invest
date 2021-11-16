@@ -35,6 +35,7 @@ import { SearchComponent } from './modules/components/search/search.component';
 import { NavigationComponent } from './modules/components/navigation/navigation.component';
 import { CurrencyComponent } from './modules/components/currency/currency.component';
 import { CurrencyDetailsComponent } from './modules/components/currency-details/currency-details.component';
+import { ChartComponent } from './modules/components/chart/chart.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { CurrencyDetailsComponent } from './modules/components/currency-details/
     NavigationComponent,
     CurrencyComponent,
     CurrencyDetailsComponent,
+    ChartComponent,
 
   ],
   imports: [
