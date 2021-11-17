@@ -42,6 +42,19 @@ export class UserEffects {
     )
   );
 
+  createUserSuccess$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(createUserSuccess),
+      mergeMap(() =>
+      this.usersService.loginNavigate().pipe(
+        map(()=>
+          loginNavigateSuccess()
+        )
+      ))
+    )
+  );
+
+
   loginUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loginUser),

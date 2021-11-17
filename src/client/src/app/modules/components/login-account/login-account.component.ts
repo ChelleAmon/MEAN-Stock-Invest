@@ -28,8 +28,18 @@ export class LoginAccountComponent {
 
 
   submit() {
+
+    // this.userObj = {
+    //   firstName: this.userForm.value.firstName,
+    //   email: this.userForm.value.email,
+    // };
       this.store.dispatch(loginUser({data: this.form.value}))
+
+      // sessionStorage.setItem('loggedIn', 'true')
+      // sessionStorage.setItem('firstName', this.userDetails.firstName);
+      // sessionStorage.setItem('email', this.userDetails.email);
+
   }
-  
+
 }
 

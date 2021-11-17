@@ -48,3 +48,7 @@ export const loginUserFailure = createAction (
 export const loginNavigateSuccess = createAction (
   '[User] Login Navigate Success'
 )
+
+// export const logOutUserSuccess = createAction (
+
+// )

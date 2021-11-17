@@ -22,7 +22,7 @@ export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
 export const initialState: State = adapter.getInitialState({
   users: [],
   selectedUser: null,
-  loginUser: null
+  loginUser: JSON.parse(localStorage.getItem("token") || "{}")
 
 });
 
@@ -39,10 +39,13 @@ export const reducer = createReducer(
   }),
 
   on(loginUserSuccess, (state, action) => {
+    localStorage.setItem("token", JSON.stringify(action.data) )
     return {...state, users:state.users.map(
       user => (user.email === action.data.email) && (user.password === action.data.password)
       ? action.data : user
       )}
-  })
+  }),
+
+ 
 );
 
