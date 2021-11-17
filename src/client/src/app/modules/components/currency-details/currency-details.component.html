@@ -1,1 +1,165 @@
-<p>currency-details works!</p>
+<div class="container err" *ngIf="errorMsg">
+  <p class="text-center">
+    <span class="material-icons display-2 sad text-center">
+      sentiment_dissatisfied
+    </span>
+  </p>
+  <p class="text-center">No such cryptocurrency found in our system!</p>
+</div>
+
+<div class="container-fluid" *ngIf="!errorMsg">
+  <mat-card class="mat-card">
+    <mat-card-header>
+      <!-- <img
+      mat-card-avatar
+      class="header-image"
+      src="./assets/color/{{ name | lowercase }}.svg"
+    /> -->
+      <mat-card-title class="cardTitle"> {{name}}: {{metadata['3. Digital Currency Name']}}</mat-card-title>
+      <span class="example-spacer"></span>
+      <a mat-button> <span class="material-icons" mat-button>bookmark</span></a>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col cardsInside">
+          <div class="row">
+            <div class="col">
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-title> Digital Currency Name: {{metadata['3. Digital Currency Name']}}</mat-card-title>
+                  <mat-card-subtitle>Price Summary</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <table class="table table-dark tableDetails">
+                    <thead>
+                      <tr>
+                        <th scope="col"> Today's Open</th>
+                        <th scope="col"> Today's Low</th>
+                        <th scope="col"> Today's High</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{todayDetails['1b. open (USD)'] | currency}}</td>
+                        <td>{{todayDetails['3b. low (USD)'] | currency}}</td>
+                        <td>{{todayDetails['2b. high (USD)'] | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-dark tableDetails">
+                    <thead>
+                      <tr>
+                        <th scope="col">Volume Traded</th>
+                        <th scope="col">Market Cap</th>
+                        <th scope="col">Close</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{todayDetails['5. volume']}} </td>
+                        <td>{{todayDetails['6. market cap (USD)'] | currency}} </td>
+                        <td>{{todayDetails['4b. close (USD)'] | currency}} </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <mat-card>
+                <mat-card-content>
+                  <table class=" table table-dark tableDetails">
+                    <thead>
+                      <tr>
+                        <th scope="col">Order History (WazirX)</th>
+                      </tr>
+                      <tr>
+                        <th scope="col subtitle">Buy - Sell</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span class="text-success">{{orders['asks'][0][0]}} </span> -
+                          <span class="text-danger">{{orders['bids'][0][0]}} </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="text-success">{{orders['asks'][1][0]}} </span> -
+                          <span class="text-danger">{{orders['bids'][1][0]}} </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="text-success">{{orders['asks'][2][0]}} </span> -
+                          <span class="text-danger">{{orders['bids'][2][0]}} </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="text-success">{{orders['asks'][3][0]}} </span> -
+                          <span class="text-danger">{{orders['bids'][3][0]}} </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col">
+              <mat-card>
+                <mat-card-content>
+                  <table class="table table-dark tableDetails">
+                    <thead>
+                      <tr>
+                        <th scope="col">Market History</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          {{history[0].price}} ,
+                          <span class="text-warning">{{history[0].volume}}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          {{history[1].price}} ,
+                          <span class="text-warning">{{history[1].volume}}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          {{history[2].price}} ,
+                          <span class="text-warning">{{history[2].volume}}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          {{history[3].price}} ,
+                          <span class="text-warning">{{history[3].volume}}</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <mat-card class="example-card">
+            <mat-card-content>
+              <app-chart [name]="name"></app-chart>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

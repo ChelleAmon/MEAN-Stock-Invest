@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { createUser } from 'src/app/store/actions/user/user.actions';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 @Component({
   selector: 'app-add-account',
@@ -26,11 +25,10 @@ export class AddAccountComponent {
   ) {
 
   this.userForm = this.fb.group({
-    company: null,
-    firstName: [null, Validators.required, Validators.minLength(4)],
-    lastName: [null, Validators.required, Validators.minLength(4)],
-    email: [null, Validators.required, this.validateEmail ],
-    password: [null, Validators.compose([
+    firstName: ["", [Validators.required, Validators.minLength(3)]],
+    lastName: ["", [Validators.required, Validators.minLength(3)]],
+    email: ["", [Validators.required, Validators.email, this.validateEmail] ],
+    password: ["", Validators.compose([
       Validators.required, Validators.minLength(5), this.validatePwd])
     ],
   });
@@ -56,16 +54,16 @@ export class AddAccountComponent {
       }
   }
 
-  userObj: any;
-  userDetails: any;
+  // userObj: any;
+  // userDetails: any;
 
   createAccount(){
-    this.userObj = {
-      firstName: this.userForm.value.firstName,
-      lastName: this.userForm.value.lastName,
-      email: this.userForm.value.email,
-      password: this.userForm.value.password,
-    };
+    // this.userObj = {
+    //   firstName: this.userForm.value.firstName,
+    //   lastName: this.userForm.value.lastName,
+    //   email: this.userForm.value.email,
+    //   password: this.userForm.value.password,
+    // };
 
      if(this.userForm.valid){
       this.store.dispatch(createUser({data: this.userForm.value}))
@@ -78,11 +76,10 @@ export class AddAccountComponent {
       // sessionStorage.setItem('email', this.userDetails.email);
       // this.router.navigate([''])
 
+    }else{
+      this._snackBar.open('One or more fields are invalid. Try again ', '❎', {
+        duration: 2000})
     }
-    // }else{
-    //   (error: any) => this.errorMessage = error.message
-    //   console.log(this.errorMessage)
-    // }
 
   }
 

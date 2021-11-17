@@ -39,10 +39,5 @@ export class LoginAccountComponent {
       // }
 
   }
-
-
-
-
-
 }
 
