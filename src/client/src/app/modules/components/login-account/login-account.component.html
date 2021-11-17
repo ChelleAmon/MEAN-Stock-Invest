@@ -17,7 +17,7 @@
 </p>
 
 <div class="button">
-  <button type="submit" (click)="submit()" class="login-btn" mat-raised-button>Login</button>
+  <button type="submit" *ngIf="form.valid == true" (click)="submit()" class="login-btn" mat-raised-button>Login</button>
 </div>
 
 </form>

@@ -10,6 +10,7 @@ import {
   loadUsers,
   loadUsersFailure,
   loadUsersSuccess,
+  loginNavigateSuccess,
   loginUser,
   loginUserFailure,
   loginUserSuccess,
@@ -52,6 +53,18 @@ export class UserEffects {
       )
     )
   );
+
+  loginSuccess$ = createEffect(()=>
+    this.actions$.pipe(
+      ofType(loginUserSuccess),
+      mergeMap(() =>
+      this.usersService.loginNavigate().pipe(
+        map(()=>
+          loginNavigateSuccess()
+        )
+      ))
+    )
+  )
 
   constructor(private actions$: Actions, private usersService: UsersService) {}
 }

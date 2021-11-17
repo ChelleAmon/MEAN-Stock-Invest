@@ -32,7 +32,7 @@ export const createUserFailure = createAction (
 
 export const loginUser = createAction (
   '[User] Login User',
-  props<{data: User}>(),
+  props<{data: Partial<User>}>(),
 );
 
 export const loginUserSuccess = createAction (
@@ -44,3 +44,7 @@ export const loginUserFailure = createAction (
   '[User] Login User Failure',
   props<{error: Error}>()
 );
+
+export const loginNavigateSuccess = createAction (
+  '[User] Login Navigate Success'
+)

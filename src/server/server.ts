@@ -88,13 +88,18 @@ app.post('/user-login', function(req,res){
           httpOnly: true,
           maxAge: 60 * 60 * 1000,
         });
-        res.json({message: "Successfully logged in!"})
+
+        res.json({data : user})
+
       } else {
         res.sendStatus(403);
         console.log('No email or password matched!')
       };
     });
-  });
+  })
+  .catch(err => {
+    return res.sendStatus(404).json({error: err})
+  })
 });
 
 app.get("/ordersHistory/:currency", async(req,res,next) => {
