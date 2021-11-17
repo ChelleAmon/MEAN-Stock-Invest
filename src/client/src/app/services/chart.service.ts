@@ -8,6 +8,7 @@ import { ApiService } from './api.service';
 })
 export class ChartService {
 
+
   constructor(private api: ApiService, private http:HttpClient) { }
 
   getHistoricalData(name: string): Observable<any>{
