@@ -10,10 +10,10 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class SearchComponent implements OnInit {
 
-  searchForm: any;
+  searchForm: FormGroup;
 
   myControl  = new FormControl();
-  options: string[] = ['BTC', 'ETH', 'DOGE', 'MANA', 'NPXS', 'DASH'];
+  options: string[] = ['BTC', 'ETH', 'DOGE', 'NPXS', 'DASH'];
   filteredOptions!: Observable<any>;
   search: any;
   selected: boolean = false;
@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.searchForm = this.fb.group({
-      search: ['', Validators.required]
+      search: ['', [Validators.required]]
     });
 
     this.filteredOptions = this.myControl.valueChanges.pipe(

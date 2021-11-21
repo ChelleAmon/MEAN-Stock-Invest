@@ -28,62 +28,56 @@ export class CurrencyComponent implements OnInit {
   pChange: any;
   diff: any;
 
-  value$ = new BehaviorSubject(0);
 
   constructor(private cryptoService: CryptoService) {
 
-      // timer(10000).pipe(
-      //   tap(() => this.getCurrencies())
-      // ).subscribe();
 
   }
   @ViewChild(MatPaginator) paginator: any;
 
-
   ngOnInit(): void {
+
+    this.getCurrencies();
 
     setInterval(() => {
       this.previous = [...this.change];
-      this.currencyArray.splice(0);
-      this.currencyArray = this.getCurrencies();
+     this.getCurrencies();
     }, 10 * 1000);
 
   }
 
   getCurrencies(): any {
     this.cryptoService.getPrices().subscribe((success)=> {
-
       this.currencies = success;
 
+      let i = 0;
+
       for(let property in this.currencies){
-        this.currencyArray.push(this.currencies[property]);
+        this.currencyArray[i] = this.currencies[property]
+        i++;
 
       }
-      this.pChange = [...this.change]
-      this.change = [];
 
-      for(let e of this.currencyArray){
-        this.change.push(e.last)
-      }
+      // this.pChange = [...this.change]
+      // this.change = [];
 
-      for(let i = 0; i < this.currencyArray.length; i++){
-        this.currencyArray[i].change = (this.change[i] = this.pChange[i]);
+      // for(let e of this.currencyArray){
+      //   this.change.push(e.last)
+      //   // console.log('Change:', this.change)
+      // }
 
-        if ((this.change[i] - this.pChange[i]) >= 0){
-          this.currencyArray[i].colors = 'green'
-        } else {
-          this.currencyArray[i].colors ='red'
-        }
-      }
+      // for(let i = 0; i < this.currencyArray.length; i++){
+      //   this.currencyArray[i].change = (this.change[i] = this.pChange[i]);
+
+      //   if ((this.change[i] - this.pChange[i]) >= 0){
+      //     this.currencyArray[i].colors = 'green'
+      //   } else {
+      //     this.currencyArray[i].colors ='red'
+      //   }
+      // }
     },
       (error) => this.error = error
     );
-
-    if (!this.error){
-      return this.currencyArray;
-    }else {
-      return null;
-    }
   }
 }
 
