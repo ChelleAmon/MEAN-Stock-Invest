@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store';
+import { logOutUser } from 'src/app/store/actions/user/user.actions';
 
 @Component({
   selector: 'app-navigation',
@@ -8,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private store: Store<AppState>) { }
 
   firstName: any;
 
@@ -20,12 +23,17 @@ export class NavigationComponent implements OnInit {
     this.loggedIn = sessionStorage.getItem("loggedIn");
 
     if (this.loggedIn = "true"){
-      this.loggedIn=true
+      this.loggedIn=true;
     }
   }
 
   reload(){
     window.location.reload();
+  }
+
+  logOut(){
+    this.loggedIn = false;
+    this.store.dispatch(logOutUser())
   }
 
 }

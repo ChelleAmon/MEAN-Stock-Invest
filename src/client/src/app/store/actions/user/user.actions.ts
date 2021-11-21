@@ -47,8 +47,23 @@ export const loginUserFailure = createAction (
 
 export const loginNavigateSuccess = createAction (
   '[User] Login Navigate Success'
-)
+);
 
-// export const logOutUserSuccess = createAction (
+export const loginFailureRedirect = createAction (
+  '[User] Login Failure Redirect'
+);
 
-// )
+export const logOutUser = createAction (
+  '[User] Logout User',
+);
+
+export const logOutUserSuccess = createAction (
+  '[User] Logout User Success',
+);
+
+export const logOutUserFailure = createAction (
+  '[User] Login User Failure',
+);
+
+
+

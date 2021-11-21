@@ -102,6 +102,14 @@ app.post('/user-login', function(req,res){
   })
 });
 
+app.get('/user-logout', authHandler, function(req,res){
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    maxAge: 60 *60 * 1000,
+  })
+  res.json({message: 'Successfully Logged Out!'})
+})
+
 app.get("/ordersHistory/:currency", async(req,res,next) => {
   try {
     let response = await axios.get('https://api.wazirx.com/api/v2/depth?market='+req.params.currency);
@@ -124,5 +132,6 @@ app.get("/marketsHistory/:currency", async(req,res,next)=> {
 app.listen(PORT, function() {
   console.log(`running on http://localhost:${PORT}`)
 }) 
+
 
 

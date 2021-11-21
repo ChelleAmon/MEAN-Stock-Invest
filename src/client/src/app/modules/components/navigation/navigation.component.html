@@ -5,10 +5,10 @@
 <span mat-button [routerLink]="['/Home-Search']">Crypto Vest-In</span>
   <span class="example-spacer"></span>
   <span *ngIf="loggedIn === true" class="welcome">Hi, {{firstName}}</span> &nbsp;
-  <button mat-button class="login-icon favorite-icon" [routerLink]="['/login']" *ngIf="loggedIn!=true">
+  <button mat-button class="login-icon favorite-icon" [routerLink]="['/']" *ngIf="loggedIn!=true">
     <mat-icon>person_outline</mat-icon>Login
   </button>
-  <!-- <button mat-icon-button class="example-icon" *ngIf="loggedIn==true">
-    <mat-icon>LogOut</mat-icon>
-  </button> -->
+  <button mat-icon-button class="example-icon" *ngIf="loggedIn==true">
+    <mat-icon>logout</mat-icon>
+  </button>
 </mat-toolbar>

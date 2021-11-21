@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UsersService } from 'src/app/services/users.service';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 import {
   createUser,
   createUserFailure,
@@ -10,10 +11,14 @@ import {
   loadUsers,
   loadUsersFailure,
   loadUsersSuccess,
+  loginFailureRedirect,
   loginNavigateSuccess,
   loginUser,
   loginUserFailure,
   loginUserSuccess,
+  logOutUser,
+  logOutUserFailure,
+  logOutUserSuccess,
 } from '../../actions/user/user.actions';
 
 @Injectable()
@@ -77,7 +82,30 @@ export class UserEffects {
         )
       ))
     )
+  );
+
+  loginFailure$ = createEffect(()=>
+  this.actions$.pipe(
+    ofType(loginUserFailure),
+    mergeMap(() => {
+      this.router.navigate(['/']);
+      return of(loginFailureRedirect())
+    })
+  )
+  );
+
+  logOutUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(logOutUser),
+      mergeMap(() =>
+        this.usersService.logOut().pipe(
+          map((data) => logOutUserSuccess()),
+          catchError((error) => of(logOutUserFailure()))
+        )
+      )
+    )
+
   )
 
-  constructor(private actions$: Actions, private usersService: UsersService) {}
+  constructor(private actions$: Actions, private usersService: UsersService, private router: Router) {}
 }

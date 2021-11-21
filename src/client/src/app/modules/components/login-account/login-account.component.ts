@@ -34,6 +34,7 @@ export class LoginAccountComponent {
     //   email: this.userForm.value.email,
     // };
       this.store.dispatch(loginUser({data: this.form.value}))
+      this.form.reset();
 
       // sessionStorage.setItem('loggedIn', 'true')
       // sessionStorage.setItem('firstName', this.userDetails.firstName);

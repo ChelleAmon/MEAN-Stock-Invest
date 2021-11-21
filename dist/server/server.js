@@ -85,6 +85,13 @@ app.post('/user-login', function (req, res) {
         return res.sendStatus(404).json({ error: err });
     });
 });
+app.get('/user-logout', authHandler, function (req, res) {
+    res.cookie('jwt', '', {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000,
+    });
+    res.json({ message: 'Successfully Logged Out!' });
+});
 app.get("/ordersHistory/:currency", async (req, res, next) => {
     try {
         let response = await axios.get('https://api.wazirx.com/api/v2/depth?market=' + req.params.currency);

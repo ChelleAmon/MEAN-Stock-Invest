@@ -31,4 +31,9 @@ export class UsersService {
   loginNavigate(){
     return of(this.router.navigate(['Home-Search']))
   }
+
+  logOut() {
+    this.router.navigate(['/'])
+    return this.api.get('user-logout')
+  }
 }

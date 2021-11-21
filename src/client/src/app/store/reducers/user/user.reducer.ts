@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 import { User } from '../../../../../../shared/models/user.model';
-import { createUserSuccess, loadUsersSuccess, loginUserSuccess } from '../../actions/user/user.actions';
+import { createUserSuccess, loadUsersSuccess, loginUserFailure, loginUserSuccess, logOutUserSuccess } from '../../actions/user/user.actions';
 
 
 export const userFeatureKey = 'user';
@@ -9,6 +9,8 @@ export const userFeatureKey = 'user';
 export interface State extends EntityState<User>{
   users: User[];
   loginUser: User | null;
+  loginFailMessage: string;
+  logOut: null;
 }
 
 export function selectUserId(a: User): string {
@@ -22,7 +24,9 @@ export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
 export const initialState: State = adapter.getInitialState({
   users: [],
   selectedUser: null,
-  loginUser: JSON.parse(localStorage.getItem("token") || "{}")
+  loginUser: JSON.parse(sessionStorage.getItem("token") || "{}"),
+  loginFailMessage: '',
+  logOut: null,
 
 });
 
@@ -35,17 +39,33 @@ export const reducer = createReducer(
   }),
 
   on(createUserSuccess, (state, action) => {
+    sessionStorage.setItem("token", JSON.stringify(action.data))
+    sessionStorage.setItem('firstName', action.data.firstName)
+    sessionStorage.setItem('email', action.data.email)
+
     return adapter.addOne(action.data, state)
   }),
 
   on(loginUserSuccess, (state, action) => {
-    localStorage.setItem("token", JSON.stringify(action.data) )
+    sessionStorage.setItem("token", JSON.stringify(action.data))
+    sessionStorage.setItem('firstName', action.data.firstName)
+    sessionStorage.setItem('email', action.data.email)
+
     return {...state, users:state.users.map(
       user => (user.email === action.data.email) && (user.password === action.data.password)
       ? action.data : user
       )}
   }),
 
- 
+  on(loginUserFailure, (state, action) => {
+    return {...state, loginFailMessage: action.error.message}
+  }),
+
+  // on(logOutUserSuccess, (state, action ) => {
+  //   sessionStorage.removeItem("token")
+  //   return {...state}
+  // })
+
+
 );
 
