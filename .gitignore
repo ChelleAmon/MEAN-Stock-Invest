@@ -5,31 +5,7 @@ Issues
 Marketplace
 Explore
  
-@ChelleAmon 
-sabiyoung
-/
-tweeter-clone
-Public
-generated from mean-stack-apprentices/full-stack
-1
-0
-0
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-tweeter-clone/.gitignore
-@sabiyoung
-sabiyoung save changes
-Latest commit 6172990 19 days ago
- History
- 1 contributor
-104 lines (75 sloc)  1.57 KB
-   
+
 # Logs
 logs
 *.log
@@ -131,6 +107,8 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+/dist/
 
 # TernJS port file
 .tern-port
