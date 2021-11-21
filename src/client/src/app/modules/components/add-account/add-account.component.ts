@@ -54,27 +54,24 @@ export class AddAccountComponent {
       }
   }
 
-  // userObj: any;
-  // userDetails: any;
+  userObj: any;
+  userDetails: any;
 
   createAccount(){
-    // this.userObj = {
-    //   firstName: this.userForm.value.firstName,
-    //   lastName: this.userForm.value.lastName,
-    //   email: this.userForm.value.email,
-    //   password: this.userForm.value.password,
-    // };
+    this.userObj = {
+      firstName: this.userForm.value.firstName,
+      email: this.userForm.value.email,
+    };
 
      if(this.userForm.valid){
       this.store.dispatch(createUser({data: this.userForm.value}))
       this._snackBar.open('Registration successful! ', '❎', {
         duration: 2000,
-      });
-      // sessionStorage.setItem('loggedIn', 'true')
-      // sessionStorage.setItem('firstname', this.userDetails.firstName);
-      // sessionStorage.setItem('lastname', this.userDetails.lastName);
-      // sessionStorage.setItem('email', this.userDetails.email);
-      // this.router.navigate([''])
+       });
+      sessionStorage.setItem('loggedIn', 'true')
+      sessionStorage.setItem('firstName', this.userDetails.firstName);
+      sessionStorage.setItem('email', this.userDetails.email);
+      // this.router.navigate(['/Home-Search'])
 
     }else{
       this._snackBar.open('One or more fields are invalid. Try again ', '❎', {

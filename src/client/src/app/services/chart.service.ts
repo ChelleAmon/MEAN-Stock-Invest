@@ -7,9 +7,7 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class ChartService {
-
-
-  constructor(private api: ApiService, private http:HttpClient) { }
+    constructor(private api: ApiService, private http:HttpClient) { }
 
   getHistoricalData(name: string): Observable<any>{
     return this.http.get(`https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=${name}&market=CNY&apikey=YBHQYZO232RKAWR1`)

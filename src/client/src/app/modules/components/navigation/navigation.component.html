@@ -1,13 +1,14 @@
 <mat-toolbar>
-  <button mat-icon-button class="example-icon">
+  <button mat-icon-button class="example-icon" (click)="reload()">
     <mat-icon>moving</mat-icon>
-  </button>
-  <span>Crypto Vest-In</span>
+</button>
+<span mat-button [routerLink]="['/Home-Search']">Crypto Vest-In</span>
   <span class="example-spacer"></span>
-  <button mat-icon-button class="login-icon favorite-icon">
-    <mat-icon>person_outline</mat-icon>
+  <span *ngIf="loggedIn === true" class="welcome">Hi, {{firstName}}</span> &nbsp;
+  <button mat-button class="login-icon favorite-icon" [routerLink]="['/']" *ngIf="loggedIn!=true">
+    <mat-icon>person_outline</mat-icon>Login
   </button>
-  <button mat-icon-button class="example-icon">
-    <mat-icon>share</mat-icon>
+  <button mat-icon-button class="example-icon" *ngIf="loggedIn==true">
+    <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
