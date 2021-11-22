@@ -41,7 +41,7 @@ export const reducer = createReducer(
   on(createUserSuccess, (state, action) => {
     sessionStorage.setItem("token", JSON.stringify(action.data))
     sessionStorage.setItem('firstName', action.data.firstName)
-    sessionStorage.setItem('email', action.data.email)
+    sessionStorage.setItem('userId', JSON.stringify(action.data._id))
 
     return adapter.addOne(action.data, state)
   }),
@@ -49,7 +49,7 @@ export const reducer = createReducer(
   on(loginUserSuccess, (state, action) => {
     sessionStorage.setItem("token", JSON.stringify(action.data))
     sessionStorage.setItem('firstName', action.data.firstName)
-    sessionStorage.setItem('email', action.data.email)
+    sessionStorage.setItem('userId', JSON.stringify(action.data._id))
 
     return {...state, users:state.users.map(
       user => (user.email === action.data.email) && (user.password === action.data.password)
@@ -57,9 +57,6 @@ export const reducer = createReducer(
       )}
   }),
 
-  on(loginUserFailure, (state, action) => {
-    return {...state, loginFailMessage: action.error.message}
-  }),
 
   // on(logOutUserSuccess, (state, action ) => {
   //   sessionStorage.removeItem("token")

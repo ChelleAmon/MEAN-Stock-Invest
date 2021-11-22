@@ -84,15 +84,6 @@ export class UserEffects {
     )
   );
 
-  loginFailure$ = createEffect(()=>
-  this.actions$.pipe(
-    ofType(loginUserFailure),
-    mergeMap(() => {
-      this.router.navigate(['/']);
-      return of(loginFailureRedirect())
-    })
-  )
-  );
 
   logOutUser$ = createEffect(() =>
     this.actions$.pipe(

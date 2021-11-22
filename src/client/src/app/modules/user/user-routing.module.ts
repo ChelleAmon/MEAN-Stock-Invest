@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserLoginComponent } from 'src/app/pages/user-login/user-login.component';
 import { AddAccountComponent } from '../components/add-account/add-account.component';
-import { CurrencyDetailsComponent } from '../components/currency-details/currency-details.component';
 import { LoginAccountComponent } from '../components/login-account/login-account.component';
 
 const routes: Routes = [
