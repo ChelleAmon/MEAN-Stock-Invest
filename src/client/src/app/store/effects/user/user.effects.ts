@@ -51,7 +51,7 @@ export class UserEffects {
   this.actions$.pipe(
     ofType(createUserSuccess),
       mergeMap(() =>
-      this.usersService.loginNavigate().pipe(
+      this.usersService.navigateToLogin().pipe(
         map(()=>
           loginNavigateSuccess()
         )

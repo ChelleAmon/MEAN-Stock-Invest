@@ -2,13 +2,16 @@
   <button mat-icon-button class="example-icon" (click)="reload()">
     <mat-icon>moving</mat-icon>
 </button>
+<ng-container *ngIf="(loggedUser$ | async) as user">
+
 <span mat-button [routerLink]="['/Home-Search']">Crypto Vest-In</span>
   <span class="example-spacer"></span>
-  <span *ngIf="loggedIn === true" class="welcome">Hi, {{firstName}}</span> &nbsp;
-  <button mat-button class="login-icon favorite-icon" [routerLink]="['/']" *ngIf="loggedIn!=true">
-    <mat-icon>person_outline</mat-icon>Login
+  <span  class="welcome">Hi, {{user.firstName }}</span> &nbsp;
+  <button mat-icon-button class="example-icon"  routerLink="/watchList">
+    <mat-icon>account_circle</mat-icon>
   </button>
-  <button mat-icon-button class="example-icon" *ngIf="loggedIn==true">
+  <button mat-icon-button class="example-icon">
     <mat-icon>logout</mat-icon>
   </button>
+</ng-container>
 </mat-toolbar>
