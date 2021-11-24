@@ -71,7 +71,6 @@ export class AddAccountComponent {
       sessionStorage.setItem('loggedIn', 'true')
       sessionStorage.setItem('firstName', this.userDetails.firstName);
       sessionStorage.setItem('email', this.userDetails.email);
-      // this.router.navigate(['/Home-Search'])
 
     }else{
       this._snackBar.open('One or more fields are invalid. Try again ', '❎', {

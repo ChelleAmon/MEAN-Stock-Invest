@@ -13,9 +13,4 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  checkLogin(){
-    this.userService.checkLogin().subscribe(data => console.log("Check Login", data))
-
-  }
-
 }

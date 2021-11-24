@@ -40,32 +40,32 @@ export const reducer = createReducer(
 
   on(createUserSuccess, (state, action) => {
     sessionStorage.setItem("token", JSON.stringify(action.data))
-    sessionStorage.setItem('firstName', action.data.firstName)
-    sessionStorage.setItem('email', action.data.email)
+    // sessionStorage.setItem('firstName', action.data.firstName)
+    // sessionStorage.setItem('userId', JSON.stringify(action.data._id))
 
     return adapter.addOne(action.data, state)
+    
   }),
 
   on(loginUserSuccess, (state, action) => {
     sessionStorage.setItem("token", JSON.stringify(action.data))
-    sessionStorage.setItem('firstName', action.data.firstName)
-    sessionStorage.setItem('email', action.data.email)
+    // sessionStorage.setItem('firstName', action.data.firstName)
+    // sessionStorage.setItem('userId', JSON.stringify(action.data._id))
+
 
     return {...state, users:state.users.map(
       user => (user.email === action.data.email) && (user.password === action.data.password)
       ? action.data : user
-      )}
+      ),
+      loginUser: action.data
+    }
   }),
 
-  on(loginUserFailure, (state, action) => {
-    return {...state, loginFailMessage: action.error.message}
-  }),
-
-  // on(logOutUserSuccess, (state, action ) => {
-  //   sessionStorage.removeItem("token")
-  //   return {...state}
-  // })
-
-
+  on(logOutUserSuccess, (state, action ) => {
+    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("firstName")
+    sessionStorage.removeItem("userId")
+    return {...state, loginUser: null}
+  })
 );
 

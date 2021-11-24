@@ -6,7 +6,7 @@ import axios from 'axios';
 import { UserModel } from "./schemas/user.schema.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import 'cookie-parser';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import { authHandler } from "./middleware/auth.middleware.js";
 dotenv.config();
@@ -23,6 +23,7 @@ app.use(cors({
     origin: ['http://localhost:4200', 'http://localhost:3000', 'http://localhost:8080']
 }));
 app.use(express.json());
+app.use(cookieParser());
 app.get("/getTickers", async function (req, res, next) {
     try {
         let response = await axios.get('https://api.wazirx.com/api/v2/tickers');
@@ -85,6 +86,9 @@ app.post('/user-login', function (req, res) {
         return res.sendStatus(404).json({ error: err });
     });
 });
+app.get('/checklogin', authHandler, function (req, res) {
+    res.json({ message: 'yes' });
+});
 app.get('/user-logout', authHandler, function (req, res) {
     res.cookie('jwt', '', {
         httpOnly: true,
@@ -110,23 +114,51 @@ app.get("/marketsHistory/:currency", async (req, res, next) => {
         next(error);
     }
 });
-app.get("/ordersHistory/:currency", async (req, res, next) => {
-    try {
-        let response = await axios.get('https://api.wazirx.com/api/v2/depth?market=' + req.params.currency);
-        res.send(response.data);
-    }
-    catch (error) {
-        next(error);
-    }
+app.get("/watchlist/:id", function (req, res) {
+    UserModel.aggregate([
+        // {$match:{_id: new mongoose.Types.ObjectId(req.body._id)}},
+        { $match: { _id: req.body._id } },
+        { $project: { watchList: 1, _id: 1 } },
+        { $unwind: '$watchList' },
+        // {$group: {
+        //   _id: '$_id',
+        //   items: {
+        //     $addToSet: '$watchList'
+        //   }
+        //  }
+        // }
+    ]).then((data) => {
+        console.log(data);
+        res.json({ data });
+    })
+        .catch(err => {
+        res.status(501).json({ errors: err });
+    });
 });
-app.get("/marketsHistory/:currency", async (req, res, next) => {
-    try {
-        let response = await axios.get('https://api.wazirx.com/api/v2/trades?market=' + req.params.currency);
-        res.send(response.data);
-    }
-    catch (error) {
-        next(error);
-    }
+//   UserModel.findOne({user:req.body._id})
+//   .populate({
+//     path: 'user', 
+//       populate: [
+//         {path: 'watchList'}
+//       ]
+//   }
+//   )
+//   .then((data)=> {
+//     console.log(data);
+//     res.json({data})
+//   })
+//   .catch(err => {
+//     res.status(501).json({errors: err})
+//   })
+// })
+app.put("/addtowatch/:id/:cryptocode", async (req, res) => {
+    let pushToArray = await UserModel.updateOne({ id: req.params.id }, { $push: { watchList: req.params.cryptocode } })
+        .then(data => {
+        console.log(data);
+        res.json({ pushToArray });
+    }).catch(error => {
+        res.status(501).json({ errors: error });
+    });
 });
 app.listen(PORT, function () {
     console.log(`running on http://localhost:${PORT}`);

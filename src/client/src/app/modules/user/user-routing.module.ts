@@ -2,14 +2,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserLoginComponent } from 'src/app/pages/user-login/user-login.component';
 import { AddAccountComponent } from '../components/add-account/add-account.component';
-import { CurrencyDetailsComponent } from '../components/currency-details/currency-details.component';
 import { LoginAccountComponent } from '../components/login-account/login-account.component';
 
 const routes: Routes = [
-  {path:'create-account', component: AddAccountComponent},
-  {path:'login-account', component: LoginAccountComponent},
-  {path: '', component: UserLoginComponent},
-  // {path: '', redirectTo: 'login-account',pathMatch: 'full'}
+  {path: '', component: UserLoginComponent, children: [
+    {path:'create-account', component: AddAccountComponent},
+    {path:'login-account', component: LoginAccountComponent},
+    {path: '', redirectTo: 'login-account',pathMatch: 'full'}
+  ]},
+
 ];
 
 @NgModule({

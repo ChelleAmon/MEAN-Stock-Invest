@@ -19,9 +19,15 @@ const __dirname = path.resolve();
 const PORT =  3000;
 
 
-mongoose.connect('mongodb://localhost:27017/Invest-Stocks')
-  .then(()=> console.log('DB connected successfully'))
-  .catch((err) => console.log('Failed to connect to DB', err))
+mongoose.connect(
+  'mongodb://localhost:27017/Invest-Stocks',
+  )
+  .then(()=> 
+  console.log('DB connected successfully')
+  )
+  .catch((err) => 
+  console.log('Failed to connect to DB', err
+  ))
 
 
 app.use(cors(
@@ -31,6 +37,8 @@ app.use(cors(
   }
 ));
 app.use(express.json());
+app.use(cookieParser())
+
 
 app.get("/getTickers", async function(req,res, next){
   try {
@@ -102,6 +110,10 @@ app.post('/user-login', function(req,res){
   })
 });
 
+app.get('/checklogin', authHandler, function(req, res){
+  res.json({message: 'yes'})
+})
+
 app.get('/user-logout', authHandler, function(req,res){
   res.cookie('jwt', '', {
     httpOnly: true,
@@ -127,6 +139,64 @@ app.get("/marketsHistory/:currency", async(req,res,next)=> {
     next(error)
   }
 });
+
+
+app.get("/watchlist/:id", function(req,res) {
+
+  UserModel.aggregate([
+    // {$match:{_id: new mongoose.Types.ObjectId(req.body._id)}},
+    {$match: {_id: req.body._id}},
+    {$project: {watchList:1, _id:1}},
+    {$unwind: '$watchList'},
+    // {$group: {
+    //   _id: '$_id',
+    //   items: {
+    //     $addToSet: '$watchList'
+    //   }
+    //  }
+    // }
+  ]).then((data)=> {
+    console.log(data);
+    res.json({data})
+  })
+  .catch(err => {
+    res.status(501).json({errors:err})
+  })
+});
+
+//   UserModel.findOne({user:req.body._id})
+//   .populate({
+//     path: 'user', 
+//       populate: [
+//         {path: 'watchList'}
+//       ]
+//   }
+//   )
+//   .then((data)=> {
+//     console.log(data);
+//     res.json({data})
+//   })
+//   .catch(err => {
+//     res.status(501).json({errors: err})
+//   })
+// })
+
+
+app.put("/addtowatch/:id/:cryptocode", async(req,res) => {
+  let pushToArray = await UserModel.updateOne(
+    {id: req.params.id},
+    {$push: { watchList: req.params.cryptocode}}
+  )
+  .then(data => {
+    console.log(data);
+    res.json({pushToArray})
+  }).catch (error => {
+    res.status(501).json({errors:error})
+  })
+})
+
+
+
 
 
 app.listen(PORT, function() {
