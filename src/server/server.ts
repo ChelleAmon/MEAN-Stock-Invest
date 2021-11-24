@@ -16,11 +16,14 @@ const access_token = process.env.ACCESS_TOKEN as string;
 const saltRounds = 10;
 const app = express();
 const __dirname = path.resolve();
-const PORT =  3000;
+const PORT =  process.env.PORT || 3000;
 
+const clientPath = path.join(__dirname, '/dist/client')
+app.use(express.static(clientPath))
 
 mongoose.connect(
-  'mongodb://localhost:27017/Invest-Stocks',
+  // 'mongodb://localhost:27017/Invest-Stocks',
+  `${process.env.MONGO_URI}`
   )
   .then(()=> 
   console.log('DB connected successfully')
@@ -40,7 +43,7 @@ app.use(express.json());
 app.use(cookieParser())
 
 
-app.get("/getTickers", async function(req,res, next){
+app.get("/api/getTickers", async function(req,res, next){
   try {
     let response = await axios.get('https://api.wazirx.com/api/v2/tickers');
     res.send(response.data)
@@ -50,7 +53,7 @@ app.get("/getTickers", async function(req,res, next){
   }
 })
 
-app.get('/users', authHandler, function(req: any,res){
+app.get('/api/users', authHandler, function(req: any,res){
   console.log("Logged in User", req.user)
   
   UserModel.find({ email: req.user.email}, '-password')
@@ -60,7 +63,7 @@ app.get('/users', authHandler, function(req: any,res){
   })
 });
 
-app.post('/create-account', function(req, res){
+app.post('/api/create-account', function(req, res){
   const{firstName, lastName, email, password} = req.body;
 
   bcrypt.genSalt(saltRounds, function(err,salt){
@@ -83,7 +86,7 @@ app.post('/create-account', function(req, res){
   });
 });
 
-app.post('/user-login', function(req,res){
+app.post('/api/user-login', function(req,res){
   const {email, password} = req.body;
 
   UserModel.findOne({email})
@@ -110,11 +113,11 @@ app.post('/user-login', function(req,res){
   })
 });
 
-app.get('/checklogin', authHandler, function(req, res){
+app.get('/api/checklogin', authHandler, function(req, res){
   res.json({message: 'yes'})
 })
 
-app.get('/user-logout', authHandler, function(req,res){
+app.get('/api/user-logout', authHandler, function(req,res){
   res.cookie('jwt', '', {
     httpOnly: true,
     maxAge: 60 *60 * 1000,
@@ -122,7 +125,7 @@ app.get('/user-logout', authHandler, function(req,res){
   res.json({message: 'Successfully Logged Out!'})
 })
 
-app.get("/ordersHistory/:currency", async(req,res,next) => {
+app.get("/api/ordersHistory/:currency", async(req,res,next) => {
   try {
     let response = await axios.get('https://api.wazirx.com/api/v2/depth?market='+req.params.currency);
     res.send(response.data)
@@ -131,7 +134,7 @@ app.get("/ordersHistory/:currency", async(req,res,next) => {
   }
 });
 
-app.get("/marketsHistory/:currency", async(req,res,next)=> {
+app.get("/api/marketsHistory/:currency", async(req,res,next)=> {
   try{
     let response = await axios.get('https://api.wazirx.com/api/v2/trades?market='+req.params.currency)
     res.send(response.data)
@@ -141,7 +144,7 @@ app.get("/marketsHistory/:currency", async(req,res,next)=> {
 });
 
 
-app.get("/watchlist/:id", function(req,res) {
+app.get("/api/watchlist/:id", function(req,res) {
 
   UserModel.aggregate([
     // {$match:{_id: new mongoose.Types.ObjectId(req.body._id)}},
@@ -182,7 +185,7 @@ app.get("/watchlist/:id", function(req,res) {
 // })
 
 
-app.put("/addtowatch/:id/:cryptocode", async(req,res) => {
+app.put("/api/addtowatch/:id/:cryptocode", async(req,res) => {
   let pushToArray = await UserModel.updateOne(
     {id: req.params.id},
     {$push: { watchList: req.params.cryptocode}}
