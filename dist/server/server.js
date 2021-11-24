@@ -167,4 +167,12 @@ app.put("/api/addtowatch/:id/:cryptocode", async (req, res) => {
 app.listen(PORT, function () {
     console.log(`running on http://localhost:${PORT}`);
 });
+app.all('/api/*', function (req, res) {
+    res.sendStatus(404);
+});
+app.get("*", function (req, res) {
+    const filePath = path.join(__dirname, '/dist/client/index.html');
+    console.log(filePath);
+    res.sendFile(filePath);
+});
 //# sourceMappingURL=server.js.map
