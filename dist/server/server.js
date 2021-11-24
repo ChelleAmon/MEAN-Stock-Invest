@@ -114,27 +114,19 @@ app.get("/marketsHistory/:currency", async (req, res, next) => {
         next(error);
     }
 });
-app.get("/watchlist/:id", async (req, res, next) => {
-    // UserModel.find({user:req.body._id})
-    // .populate('user')
-    // .then((data)=> {
-    //   console.log(data);
-    //   res.json({data})
-    // })
-    // .catch(err => {
-    //   res.status(501).json({errors: err})
-    // })
+app.get("/watchlist/:id", function (req, res) {
     UserModel.aggregate([
-        { $match: { id: req.body._id } },
-        { $project: { watchList: 1, id: 1 } },
+        // {$match:{_id: new mongoose.Types.ObjectId(req.body._id)}},
+        { $match: { _id: req.body._id } },
+        { $project: { watchList: 1, _id: 1 } },
         { $unwind: '$watchList' },
-        { $group: {
-                _id: req.body._id,
-                item: {
-                    $addToSet: '$watchList'
-                }
-            }
-        }
+        // {$group: {
+        //   _id: '$_id',
+        //   items: {
+        //     $addToSet: '$watchList'
+        //   }
+        //  }
+        // }
     ]).then((data) => {
         console.log(data);
         res.json({ data });
@@ -143,9 +135,29 @@ app.get("/watchlist/:id", async (req, res, next) => {
         res.status(501).json({ errors: err });
     });
 });
-app.put("/addToWatch/:id/:item", async (req, res, next) => {
-    UserModel.findByIdAndUpdate(req.params.id, {
-        $push: { watchList: 1 }
+//   UserModel.findOne({user:req.body._id})
+//   .populate({
+//     path: 'user', 
+//       populate: [
+//         {path: 'watchList'}
+//       ]
+//   }
+//   )
+//   .then((data)=> {
+//     console.log(data);
+//     res.json({data})
+//   })
+//   .catch(err => {
+//     res.status(501).json({errors: err})
+//   })
+// })
+app.put("/addtowatch/:id/:cryptocode", async (req, res) => {
+    let pushToArray = await UserModel.updateOne({ id: req.params.id }, { $push: { watchList: req.params.cryptocode } })
+        .then(data => {
+        console.log(data);
+        res.json({ pushToArray });
+    }).catch(error => {
+        res.status(501).json({ errors: error });
     });
 });
 app.listen(PORT, function () {

@@ -15,11 +15,12 @@
       class="header-image"
       src="./assets/color/{{ name | lowercase }}.svg"
     /> -->
-      <mat-card-title class="cardTitle"> {{name}}: {{metadata['3. Digital Currency Name']}}</mat-card-title>
+
+      <mat-card-title class="cardTitle" *ngIf="metadata"> {{name}}: {{metadata['3. Digital Currency Name']}}</mat-card-title>
       <span class="example-spacer"></span>
-      <a mat-button> <span class="material-icons" mat-button>bookmark</span></a>
+      <a mat-button matSuffix (click)="addToWatchList( name)"> <span class="material-icons" mat-button>bookmark_add</span></a>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content *ngIf="metadata">
       <div class="row">
         <div class="col cardsInside">
           <div class="row">
@@ -74,13 +75,13 @@
                   <table class=" table table-dark tableDetails">
                     <thead>
                       <tr>
-                        <th scope="col">Order History (WazirX)</th>
+                        <th scope="col">Order History</th>
                       </tr>
                       <tr>
                         <th scope="col subtitle">Buy - Sell</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody *ngIf="orders">
                       <tr>
                         <td>
                           <span class="text-success">{{orders['asks'][0][0]}} </span> -
@@ -119,7 +120,7 @@
                         <th scope="col">Market History</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody *ngIf="history">
                       <tr>
                         <td>
                           {{history[0].price}} ,
