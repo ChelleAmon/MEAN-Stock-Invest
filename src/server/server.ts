@@ -21,7 +21,7 @@ const PORT =  process.env.PORT || 3000;
 const clientPath = path.join(__dirname, '/dist/client')
 app.use(express.static(clientPath))
 
-console.log(`${process.env.MONGOURI}`)
+console.log(`${process.env.MONGOURI}`);
 
 mongoose.connect(
   // 'mongodb://localhost:27017/Invest-Stocks',
