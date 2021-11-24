@@ -110,24 +110,6 @@ app.get("/marketsHistory/:currency", async (req, res, next) => {
         next(error);
     }
 });
-app.get("/ordersHistory/:currency", async (req, res, next) => {
-    try {
-        let response = await axios.get('https://api.wazirx.com/api/v2/depth?market=' + req.params.currency);
-        res.send(response.data);
-    }
-    catch (error) {
-        next(error);
-    }
-});
-app.get("/marketsHistory/:currency", async (req, res, next) => {
-    try {
-        let response = await axios.get('https://api.wazirx.com/api/v2/trades?market=' + req.params.currency);
-        res.send(response.data);
-    }
-    catch (error) {
-        next(error);
-    }
-});
 app.listen(PORT, function () {
     console.log(`running on http://localhost:${PORT}`);
 });
