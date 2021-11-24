@@ -1,7 +1,5 @@
-import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { BehaviorSubject, timer } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
 import { Currency } from 'src/app/models/currency';
 import { CryptoService } from 'src/app/services/crypto.service';
 
@@ -12,7 +10,7 @@ import { CryptoService } from 'src/app/services/crypto.service';
   templateUrl: './currency.component.html',
   styleUrls: ['./currency.component.scss']
 })
-export class CurrencyComponent implements OnInit {
+export class CurrencyComponent implements OnInit, OnDestroy {
 
   previous: any;
   page = 2;
@@ -28,18 +26,23 @@ export class CurrencyComponent implements OnInit {
   pChange: any;
   diff: any;
 
+  intervalId: any;
 
   constructor(private cryptoService: CryptoService) {
-
-
   }
   @ViewChild(MatPaginator) paginator: any;
+
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId)
+
+  }
 
   ngOnInit(): void {
 
     this.getCurrencies();
 
-    setInterval(() => {
+    this.intervalId = setInterval(() => {
       this.previous = [...this.change];
      this.getCurrencies();
     }, 10 * 1000);
@@ -79,6 +82,7 @@ export class CurrencyComponent implements OnInit {
       (error) => this.error = error
     );
   }
+
 }
 
 

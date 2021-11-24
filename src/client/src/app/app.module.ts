@@ -38,7 +38,8 @@ import { CurrencyDetailsComponent } from './modules/components/currency-details/
 import { ChartComponent } from './modules/components/chart/chart.component';
 import { DatePipe } from '@angular/common';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { MatButtonToggleModule } from '@angular/material/button-toggle'
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { WatchListComponent } from './modules/components/watch-list/watch-list.component';
 
 
 @NgModule({
@@ -53,6 +54,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle'
     CurrencyComponent,
     CurrencyDetailsComponent,
     ChartComponent,
+    WatchListComponent
+
 
   ],
   imports: [

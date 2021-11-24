@@ -1,7 +1,14 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { take, takeLast } from 'rxjs/operators';
 import { CurrencyDetailsService } from 'src/app/services/currency-details.service';
+import { WatchListService } from 'src/app/services/watch-list.service';
+import { AppState } from 'src/app/store';
+import { loginUserSelector } from 'src/app/store/selectors/user/user.selectors';
+import { User } from '../../../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-currency-details',
@@ -9,25 +16,33 @@ import { CurrencyDetailsService } from 'src/app/services/currency-details.servic
   styleUrls: ['./currency-details.component.scss'],
   providers:[DatePipe]
 })
-export class CurrencyDetailsComponent implements OnInit {
+export class CurrencyDetailsComponent implements OnInit, OnDestroy{
+
+  loggedUser$!: Observable<User | null>
+  interval_ID: any;
+
 
   constructor(
     private _snackBar:MatSnackBar,
     private currencyDetailsService: CurrencyDetailsService,
     public datepipe: DatePipe,
+    private watchListService: WatchListService,
+    private store: Store<AppState>
   ) { }
+
+  ngOnDestroy(): void {
+    clearInterval (this.interval_ID)
+  }
 
   ngOnInit(): void {
     this.getMeta();
-    this.orders = this.getOrders();
-    this.history = this.getMarketHistory();
 
-    setInterval(()=> {
-      this.orders = []
-      this.orders = this.getOrders();
-      this.history = []
-      this.history = this.getMarketHistory();
-    }, 10 * 1000)
+   this.interval_ID =  setInterval(()=> {
+
+    this.getOrders();
+    this.getMarketHistory();
+
+    }, 5 * 1000)
 
   }
 
@@ -44,6 +59,8 @@ export class CurrencyDetailsComponent implements OnInit {
   history: any;
   errMsg: any;
   notAv: boolean = false;
+  logged: boolean = false;
+  userId: any;
 
 
   getMeta(){
@@ -69,11 +86,30 @@ export class CurrencyDetailsComponent implements OnInit {
   }
 
   getMarketHistory(){
-    this.currencyDetailsService.getMarketHistory(this.name).subscribe((success:any)=> {
+    this.currencyDetailsService.getMarketHistory(this.name).subscribe((success)=> {
       this.history = success;
+      return this.history;
     }, (error: any)=> {
       this.errMsg = error
     })
   }
 
+  addToWatchList( item: any){
+
+    this.watchListService.addToWatch(this.userId, item).pipe(take(1)).subscribe((success) => {
+
+      this.loggedUser$ = this.store.select(loginUserSelector)
+      this.userId = this.loggedUser$;
+      this._snackBar.open("Added to WatchList", "", {
+        duration: 2000,
+      });
+    },
+    (error) => {
+      this._snackBar.open("An error occured", "", {
+        duration: 2000,
+      })
+
+    })
+
+  }
 }

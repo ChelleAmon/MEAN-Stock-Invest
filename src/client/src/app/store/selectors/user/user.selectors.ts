@@ -14,10 +14,6 @@ export const loginUserSelector = createSelector(
   (state) => state.loginUser
 );
 
-export const loginFailureSelector = createSelector(
-  userFeatureSelector,
-  (state) => state.loginFailMessage
-);
 
 export const logOutSelector = createSelector(
   userFeatureSelector,

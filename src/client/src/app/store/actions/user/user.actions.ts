@@ -53,6 +53,11 @@ export const loginFailureRedirect = createAction (
   '[User] Login Failure Redirect'
 );
 
+export const navigateToLoginSuccess = createAction (
+  '[User] Navigate to Login Success',
+  
+);
+
 export const logOutUser = createAction (
   '[User] Logout User',
 );
