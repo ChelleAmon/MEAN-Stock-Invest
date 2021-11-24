@@ -207,4 +207,12 @@ app.listen(PORT, function() {
 }) 
 
 
+app.all('/api/*', function (req,res){
+  res.sendStatus(404);
+})
 
+app.get("*", function (req, res) {
+  const filePath = path.join(__dirname, '/dist/client/index.html');
+  console.log(filePath);
+  res.sendFile(filePath);
+}); 
