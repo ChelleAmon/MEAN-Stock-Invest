@@ -23,7 +23,7 @@ app.use(express.static(clientPath))
 
 mongoose.connect(
   // 'mongodb://localhost:27017/Invest-Stocks',
-  `${process.env.MONGO_URI}`
+  `${process.env.MONGOURI}`
   )
   .then(()=> 
   console.log('DB connected successfully')
@@ -40,7 +40,7 @@ app.use(cors(
   }
 ));
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 
 
 app.get("/api/getTickers", async function(req,res, next){
