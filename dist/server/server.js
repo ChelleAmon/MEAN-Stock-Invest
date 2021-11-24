@@ -17,9 +17,10 @@ const __dirname = path.resolve();
 const PORT = process.env.PORT || 3000;
 const clientPath = path.join(__dirname, '/dist/client');
 app.use(express.static(clientPath));
+console.log(`${process.env.MONGOURI}`);
 mongoose.connect(
 // 'mongodb://localhost:27017/Invest-Stocks',
-`${process.env.MONGO_URI}`)
+`${process.env.MONGOURI}`)
     .then(() => console.log('DB connected successfully'))
     .catch((err) => console.log('Failed to connect to DB', err));
 app.use(cors({
