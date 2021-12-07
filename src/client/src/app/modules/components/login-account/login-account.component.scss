@@ -1,3 +1,5 @@
+
+
 :host {
   display: flex;
   justify-content: center;
@@ -36,6 +38,7 @@ mat-card-content {
 
 mat-form-field{
   width: 100%;
+  color: #fbfcff
 }
 
 .login-btn{
@@ -52,6 +55,7 @@ mat-form-field{
 form{
   margin: 5%;
   padding: 5%;
+
 }
 
 .btn-link{
@@ -63,3 +67,4 @@ mat-card-title {
   font-family: 'Arial';
   font-size: 20px;
 }
+

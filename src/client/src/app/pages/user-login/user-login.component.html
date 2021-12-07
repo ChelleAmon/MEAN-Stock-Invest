@@ -1,14 +1,14 @@
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">
-    <h5><b><span class="custom-h5-grub">VEST</span>-IN</b></h5>
+  <a class="navbar-brand">
+    <h4><b><span class="custom-h5-grub">CRYPTO INVEST</span></b></h4>
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse " id="navbarNav">
-    <ul class="navbar-nav ">
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" routerLink="/">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/Let\'s-get-started/login-account']">Sign In</a>
@@ -19,11 +19,4 @@
     </ul>
   </div>
 </nav>
-
-
-    <!-- <a class="btn btn-outline-primary" [routerLink]="['/Let\'s-get-started/login-account']">login</a>
-    <a class="btn btn-outline-primary" [routerLink]="['/add-product']"
-      >Add-Products</a
-    >
-    -->
 <router-outlet></router-outlet>

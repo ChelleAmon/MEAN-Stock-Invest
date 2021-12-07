@@ -13,6 +13,7 @@ import { loginUser } from 'src/app/store/actions/user/user.actions';
 })
 export class LoginAccountComponent {
 
+  hide = true;
   form: FormGroup;
   constructor(
     private store: Store<AppState>,
