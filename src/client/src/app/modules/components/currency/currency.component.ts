@@ -52,7 +52,6 @@ export class CurrencyComponent implements OnInit, OnDestroy {
   getCurrencies(): any {
     this.cryptoService.getPrices().subscribe((success)=> {
       this.currencies = success;
-
       let i = 0;
 
       for(let property in this.currencies){
