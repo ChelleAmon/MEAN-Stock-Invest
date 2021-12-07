@@ -4,13 +4,13 @@
 </button>
 <ng-container *ngIf="(loggedUser$ | async) as user">
 
-<span mat-button [routerLink]="['/Home-Search']">Crypto Vest-In</span>
+<span mat-button [routerLink]="['/Home-Search']">Crypto Invest</span>
   <span class="example-spacer"></span>
   <span  class="welcome">Hi, {{user.firstName }}</span> &nbsp;
   <button mat-icon-button class="example-icon"  routerLink="/watchList">
-    <mat-icon>account_circle</mat-icon>
+    <mat-icon>bookmark</mat-icon>
   </button>
-  <button mat-icon-button class="example-icon">
+  <button mat-icon-button class="example-icon" (click)="logOut()">
     <mat-icon>logout</mat-icon>
   </button>
 </ng-container>

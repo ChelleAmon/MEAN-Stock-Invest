@@ -26,12 +26,6 @@ export class NavigationComponent implements OnInit {
    loggedIn: any;
 
   ngOnInit(): void {
-    // this.firstName = sessionStorage.getItem("firstName");
-    // this.loggedIn = sessionStorage.getItem("loggedIn");
-
-    // if (this.loggedIn = "true"){
-    //   this.loggedIn=true;
-    // }
   }
 
   reload(){
