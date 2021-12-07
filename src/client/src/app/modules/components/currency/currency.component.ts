@@ -60,23 +60,24 @@ export class CurrencyComponent implements OnInit, OnDestroy {
 
       }
 
-      // this.pChange = [...this.change]
-      // this.change = [];
+      this.pChange = [...this.change]
+      this.change = [];
 
-      // for(let e of this.currencyArray){
-      //   this.change.push(e.last)
-      //   // console.log('Change:', this.change)
-      // }
 
-      // for(let i = 0; i < this.currencyArray.length; i++){
-      //   this.currencyArray[i].change = (this.change[i] = this.pChange[i]);
+      for(let e of this.currencyArray){
+        this.change.push(e.last)
+      }
 
-      //   if ((this.change[i] - this.pChange[i]) >= 0){
-      //     this.currencyArray[i].colors = 'green'
-      //   } else {
-      //     this.currencyArray[i].colors ='red'
-      //   }
-      // }
+
+      for(let i = 0; i < this.currencyArray.length; i++){
+        this.currencyArray[i].change = (this.change[i] - this.pChange[i]);
+
+        if (this.currencyArray[i].change > 0){
+          this.currencyArray[i].colors = 'green'
+        } else if (this.currencyArray[i].change < 0){
+          this.currencyArray[i].colors ='red'
+        }
+      }
     },
       (error) => this.error = error
     );
